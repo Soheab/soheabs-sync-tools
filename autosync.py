@@ -1,3 +1,5 @@
+# See credits.md for credits related to this file.
+
 import logging
 import datetime
 import asyncio
