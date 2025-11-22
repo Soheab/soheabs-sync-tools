@@ -1,0 +1,11 @@
+[project]
+name = "soheabs-syncer"
+version = "0.1.0"
+description = "Soheab's package to autosync and debug discord.py's CommandTree"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "discord-py>=2.6.4",
+    "xxhash>=3.4.1",
+    "msgspec>=0.19.0,<2.0.0",
+    "ruff>=0.14.6",
+]
