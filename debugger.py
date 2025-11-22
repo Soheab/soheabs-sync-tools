@@ -83,7 +83,7 @@ class SoheabsTreeDebugger:
             )
 
         self.__original_tree_sync: OriginalSyncCallable = tree.sync
-        tree.sync = self.new_sync  # type: ignore
+        tree.sync = self.__new_sync  # type: ignore
         self.tree: app_commands.CommandTree[commands.Bot] = tree
 
         self._global_allowed_contexts: app_commands.AppCommandContext = (
@@ -96,12 +96,12 @@ class SoheabsTreeDebugger:
         self._app_user_installable: discord.IntegrationTypeConfig | None = None
         self._app_guild_installable: discord.IntegrationTypeConfig | None = None
 
-    async def new_sync(self, *, guild: discord.Object | None = None) -> None:
+    async def __new_sync(self, *, guild: discord.Object | None = None) -> None:
         await self.check(guild=guild)
         if self.__original_tree_sync:
             await self.__original_tree_sync(guild=guild)
 
-    async def store_application(self) -> discord.AppInfo:
+    async def _store_application(self) -> discord.AppInfo:
         # fmt: off
         self._application = self._application or self.tree.client.application or await self.tree.client.application_info()
         self._app_guild_installable = self._application.guild_integration_config
@@ -207,7 +207,7 @@ class SoheabsTreeDebugger:
         )
 
     async def check(self, *, guild: discord.Object | None = None):
-        app = await self.store_application()
+        app = await self._store_application()
 
         if guild:
             guild_object: discord.Guild | None = (
