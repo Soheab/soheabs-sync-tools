@@ -146,28 +146,6 @@ class SoheabsTreeDebugger:
 
         return True
 
-    def __is_command_guild_installable(self, command: CommandT) -> bool:
-        allowed_installs = command.allowed_installs
-        return allowed_installs.guild if allowed_installs is not None else True
-
-    def __is_command_user_installable(self, command: CommandT) -> bool:
-        allowed_installs = command.allowed_installs
-        return allowed_installs.user if allowed_installs is not None else False
-
-    def __is_command_guild_usable(self, command: CommandT) -> bool:
-        allowed_contexts = command.allowed_contexts
-        return allowed_contexts.guild if allowed_contexts is not None else True
-
-    def __is_command_dm_usable(self, command: CommandT) -> bool:
-        allowed_contexts = command.allowed_contexts
-        return allowed_contexts.dm_channel if allowed_contexts is not None else True
-
-    def __is_command_private_channel_usable(self, command: CommandT) -> bool:
-        allowed_contexts = command.allowed_contexts
-        return (
-            allowed_contexts.private_channel if allowed_contexts is not None else False
-        )
-
     def get_bot_debug_info(self) -> str:
         return (
             f"Bot installability and usability:\n"
@@ -179,11 +157,23 @@ class SoheabsTreeDebugger:
         )
 
     async def check_command(self, command: CommandT) -> _DebugableCommand:
-        is_guild_installable = self.__is_command_guild_installable(command)
-        is_user_installable = self.__is_command_user_installable(command)
-        is_guild_usable = self.__is_command_guild_usable(command)
-        is_dm_usable = self.__is_command_dm_usable(command)
-        is_private_channel_usable = self.__is_command_private_channel_usable(command)
+        allowed_contexts = command.allowed_contexts
+        allowed_installs = command.allowed_installs
+        is_guild_installable = (
+            allowed_installs.guild if allowed_installs is not None else True
+        )
+        is_user_installable = (
+            allowed_installs.user if allowed_installs is not None else False
+        )
+        is_guild_usable = (
+            allowed_contexts.guild if allowed_contexts is not None else True
+        )
+        is_dm_usable = (
+            allowed_contexts.dm_channel if allowed_contexts is not None else True
+        )
+        is_private_channel_usable = (
+            allowed_contexts.private_channel if allowed_contexts is not None else False
+        )
 
         if is_guild_installable and not self.__is_bot_guild_installable():
             msg = f"Command '{command.name}' is guild installable, but the bot is not guild installable."
