@@ -1,0 +1,7 @@
+Something I wrote for fun. 
+
+- debugger.py
+Checks all inconsistency between the application, tree, commands and tells you about it. Like if a command is guild installable, but the bot is not, it'll raise an error. Originally wanted to write a simple script for help posts in the discord.py discord server.. didn't realises how many variables I needed to check, so scrapping that and may write something smaller in the future.
+
+- autosync.py
+Self explanatory. See credits.md. Basically implements sinbad's solution for auto syncing, without doing anything about the originally concerns mentioned in the PR, but it works for me. This was originally supposed to be an extension for discord.py, but also scrapped that.
